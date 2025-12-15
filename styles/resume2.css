@@ -1,0 +1,187 @@
+html {
+  scroll-behavior: smooth; /* enables smooth scrolling */
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #000;
+  color: #fff;
+}
+
+/* Navigation */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background-color: #87CEFA; /* cute light blue */
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  transition: background-color 0.4s ease;
+}
+
+nav.scrolled {
+  background-color: rgba(135, 206, 250, 0.6); /* lighter fade when scrolling */
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li a {
+  font-weight: bold;
+  text-decoration: none;
+  color: #000;
+  transition: color 0.3s ease;
+  margin-right: 100px; /* shift left */
+}
+
+nav ul li a:hover {
+  color: #000000;
+}
+
+.logo {
+  width: 100px;
+  filter: brightness(0) invert(1);
+  mix-blend-mode: multiply;
+}
+
+/* Hero Section */
+.hero {
+  text-align: center;
+  padding: 140px 20px 100px;
+  background: linear-gradient(135deg, #000000, #000000); /* cool gray gradient */
+}
+
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 4em;
+  margin: 0;
+  letter-spacing: 2px;
+  color: #fff;
+}
+
+.hero p {
+  font-size: 1.2em;
+  margin-top: 10px;
+  color: #ddd;
+}
+
+.buttons {
+  margin-top: 30px;
+}
+
+.buttons a {
+  display: inline-block;
+  padding: 12px 24px;
+  margin: 10px;
+  border: 1px solid #fff;
+  text-decoration: none;
+  color: #fff;
+  background: #555; /* cool gray button */
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.buttons a:hover {
+  background: #fff;
+  color: #000;
+}
+
+/* Content Sections */
+section {
+  max-width: 900px;
+  margin: 60px auto;
+  padding: 20px;
+  border-bottom: 1px solid #333;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+section:hover {
+  box-shadow: 0 0 20px #87CEFA; /* light blue glow */
+  transform: scale(1.02);       /* subtle zoom effect */
+}
+
+section h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+  border-left: 6px solid #87CEFA; /* light blue bullet */
+  padding-left: 10px;
+}
+
+ul {
+  padding-left: 20px;
+}
+
+li {
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+/* Stats Section */
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  margin: 60px 0;
+  text-align: center;
+}
+
+.stats div {
+  font-size: 1.5em;
+  font-weight: bold;
+  background: #111;
+  padding: 20px;
+  border-radius: 8px;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.stats div:hover {
+  box-shadow: 0 0 20px #87CEFA; /* glow effect */
+  transform: scale(1.05);
+}
+
+.stats span {
+  display: block;
+  font-size: 0.9em;
+  color: #ccc;
+  margin-top: 5px;
+}
+
+/* Footer */
+footer {
+  background-color: #000;
+  color: #aaa;
+  text-align: center;
+  padding: 20px;
+  margin-top: 40px;
+  border-top: 1px solid #333;
+  font-size: 0.9em;
+}
+
+/* Floating Home Button */
+.home-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #87CEFA;
+  color: #000;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 50px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  transition: background 0.3s ease, color 0.3s ease;
+  z-index: 1000;
+}
+
+.home-btn:hover {
+  background: #eae8e8;
+  color: #000; }

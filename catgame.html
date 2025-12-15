@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cat Stack Game 🐾</title>
+  <style>
+    body {
+      margin: 0;
+      background: #fce4ec;
+      font-family: 'Comic Sans MS', cursive;
+      text-align: center;
+    }
+    canvas {
+      background: #fff8dc;
+      display: block;
+      margin: 20px auto;
+      border: 3px solid #ff99cc;
+      border-radius: 10px;
+    }
+    h1 {
+      color: #ff4081;
+      margin-top: 20px;
+    }
+    button {
+      background: #ffccff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1em;
+      border-radius: 10px;
+      cursor: pointer;
+      margin: 5px;
+    }
+    button:hover {
+      background: #ff99cc;
+    }
+    #score {
+      font-size: 1.2em;
+      color: #333;
+      margin: 10px;
+    }
+    #fact-box {
+      margin: 20px auto;
+      padding: 15px;
+      width: 70%;
+      background: #fff0f5;
+      border: 2px solid #ff99cc;
+      border-radius: 10px;
+      font-size: 1.1em;
+      color: #444;
+      box-shadow: 3px 3px 10px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+  <h1>🐱 Cat Stack Game</h1>
+  <div>
+    <button onclick="startGame()">Start Game</button>
+    <button onclick="togglePause()">Pause/Resume</button>
+  </div>
+  <div id="score">Score: 0</div>
+  <canvas id="gameCanvas" width="300" height="500"></canvas>
+  <div id="fact-box">Fun Cat Fact will appear here!</div>
+
+  <script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let stack = [];
+    let currentCat = null;
+    let direction = 1;
+    let speed = 2;
+    let score = 0;
+    let gameRunning = false;
+    let paused = false;
+    let fallingCats = [];
+
+    const catWidth = 60;
+    const catHeight = 40; // taller to fit ears
+
+    // Fun facts
+    const catFacts = [
+      "Cats sleep for 70% of their lives.",
+      "A group of cats is called a clowder.",
+      "Cats can rotate their ears 180 degrees.",
+      "The oldest known pet cat was found in Cyprus, 9,500 years old!",
+      "Cats have whiskers on the backs of their front legs.",
+      "A cat’s nose print is unique, like a human fingerprint.",
+      "Most cats don’t have eyelashes.",
+      "Cats can jump up to six times their body length.",
+      "The world’s largest cat measured 48.5 inches long.",
+      "Cats purr at a frequency that promotes healing."
+    ];
+
+    function updateFact() {
+      const randomIndex = Math.floor(Math.random() * catFacts.length);
+      document.getElementById("fact-box").innerText = catFacts[randomIndex];
+    }
+    setInterval(updateFact, 60000); // change every minute
+    updateFact(); // show one immediately
+
+    function drawCat(x, y) {
+      // Body
+      ctx.fillStyle = '#ffcc99';
+      ctx.fillRect(x, y, catWidth, catHeight);
+
+      // Ears
+      ctx.fillStyle = '#ffcc99';
+      ctx.beginPath();
+      ctx.moveTo(x + 10, y);
+      ctx.lineTo(x + 20, y - 15);
+      ctx.lineTo(x + 30, y);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.moveTo(x + 40, y);
+      ctx.lineTo(x + 50, y - 15);
+      ctx.lineTo(x + 60, y);
+      ctx.closePath();
+      ctx.fill();
+
+      // Eyes
+      ctx.fillStyle = '#000';
+      ctx.fillRect(x + 15, y + 10, 8, 8);
+      ctx.fillRect(x + 37, y + 10, 8, 8);
+
+      // Nose
+      ctx.fillStyle = '#ff69b4';
+      ctx.fillRect(x + 28, y + 20, 6, 6);
+
+      // Mouth
+      ctx.strokeStyle = '#000';
+      ctx.beginPath();
+      ctx.moveTo(x + 28, y + 26);
+      ctx.lineTo(x + 31, y + 30);
+      ctx.lineTo(x + 34, y + 26);
+      ctx.stroke();
+    }
+
+    function startGame() {
+      stack = [];
+      score = 0;
+      updateScore();
+      gameRunning = true;
+      paused = false;
+      currentCat = { x: 0, y: 50 };
+      direction = 1;
+      fallingCats = [];
+      requestAnimationFrame(gameLoop);
+    }
+
+    function togglePause() {
+      paused = !paused;
+      if (!paused && gameRunning) {
+        requestAnimationFrame(gameLoop);
+      }
+    }
+
+    function updateScore() {
+      document.getElementById("score").innerText = "Score: " + score;
+    }
+
+    function gameLoop() {
+      if (!gameRunning || paused) return;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Move current cat
+      currentCat.x += direction * speed;
+      if (currentCat.x + catWidth > canvas.width || currentCat.x < 0) {
+        direction *= -1;
+      }
+
+      drawCat(currentCat.x, currentCat.y);
+
+      // Draw stack
+      for (let i = 0; i < stack.length; i++) {
+        drawCat(stack[i].x, stack[i].y);
+      }
+
+      // Animate falling cats
+      for (let i = 0; i < fallingCats.length; i++) {
+        let cat = fallingCats[i];
+        cat.y += 5; // falling speed
+        if (cat.y >= cat.targetY) {
+          stack.push({ x: cat.x, y: cat.targetY });
+          score++;
+          updateScore();
+          fallingCats.splice(i, 1);
+          i--;
+        } else {
+          drawCat(cat.x, cat.y);
+        }
+      }
+
+      requestAnimationFrame(gameLoop);
+    }
+
+    canvas.addEventListener('click', () => {
+      if (!gameRunning || paused) return;
+
+      const newY = canvas.height - (stack.length + 1) * catHeight;
+      const lastX = stack.length > 0 ? stack[stack.length - 1].x : currentCat.x;
+
+      // Check alignment
+      if (Math.abs(currentCat.x - lastX) < 30 || stack.length === 0) {
+        fallingCats.push({ x: currentCat.x, y: currentCat.y, targetY: newY });
+        currentCat = { x: 0, y: 50 };
+        direction = 1;
+      } else {
+        gameRunning = false;
+        alert("Game Over! Cats stacked: " + score);
+        document.getElementById("score").innerText = "Score: 0";
+      }
+    });
+  </script>
+  <button onclick="window.location.href='cats.html'" 
+        style="padding:10px 20px; background:#ff99cc; color:#fff; border:none; 
+               border-radius:8px; font-weight:bold; cursor:pointer; margin-top:15px;">
+  ⬅ Back to Cats Page
+</button>
+
+</body>
+</html>

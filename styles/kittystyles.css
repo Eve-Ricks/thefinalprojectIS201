@@ -1,0 +1,51 @@
+body{background-color: rgb(158, 183, 208); color: rgb(34, 34, 34); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px;}
+.title {
+
+    color: #0c2a39; text-align: center ;text-decoration: bold underline;
+    font-size: 2.5em;
+}
+.subtitle {
+    color: #0a394f;
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+.text {color: rgb(16, 41, 63); font-style: italic;}
+.link {
+    color: #f3f3f3;
+    text-decoration: underline;
+}
+/* Glowing header box */
+.glow-box h1 {
+    color: #0c2a39;
+    text-align: center;
+    font-size: 2.5em;
+    transition: text-shadow 0.3s ease;
+}
+.glow-box h1:hover {
+    text-shadow: 0 0 10px #e1e1e1, 0 0 20px #dfdfdf, 0 0 30px #e7e6e3;
+}
+
+/* Image hover effects */
+.image-box img {
+    margin: 10px;
+    border: 3px solid #0c2a39;
+    border-radius: 10px;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+.image-box img:hover {
+    transform: scale(1.1) rotate(3deg);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+/* Fixed box */
+.fixed-box {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #0c2a39;
+    color: #f3f3f3;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 1em;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
